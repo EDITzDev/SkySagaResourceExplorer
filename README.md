@@ -4,7 +4,7 @@ A tool developed to explore and export [SkySaga: Infinite Isles](https://wikiped
 
 ⚠️ Keep in mind this tool is still in early development.
 
-![SkySagaResourceExplorer](https://github.com/EDITzDev/SkySagaResourceExplorer/assets/7481152/820a3c08-a674-4a1b-b343-fee84244c0d0)
+![SkySagaResourceExplorer](https://github.com/EDITzDev/SkySagaResourceExplorer/assets/7481152/755c765f-1d6d-4c1c-93b4-765853ea9e83)
 
 ## Getting Started & Documentation
 Please visit the [wiki](https://github.com/EDITzDev/SkySagaResourceExplorer/wiki) for guides and documentation.
