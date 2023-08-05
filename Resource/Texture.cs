@@ -129,6 +129,9 @@ public partial class Texture : UserControl
 
         var savePath = Path.Combine(directory, $"{file.Text}.png");
 
+        if (File.Exists(savePath))
+            return;
+
         if (flipVertical)
             image.Mutate(x => x.Flip(FlipMode.Vertical));
 
