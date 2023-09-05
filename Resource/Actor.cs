@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace ResourceExplorer;
 
@@ -215,7 +216,7 @@ public partial class Actor : UserControl
                 for (var i = 0; i < positionEntry.Dimension; i++)
                     floats[i] = (float)BitConverter.ToHalf(vertex, positionEntry.Offset + (i * 2));
 
-                objectStreamWriter.WriteLine($"v  {string.Join(' ', floats)}");
+                objectStreamWriter.WriteLine($"v  {string.Join(' ', floats.Select(x => x.ToString(CultureInfo.InvariantCulture)))}");
             }
             else if (positionEntry.Type == VertexFormat.Type.Float)
             {
@@ -224,7 +225,7 @@ public partial class Actor : UserControl
                 for (var i = 0; i < positionEntry.Dimension; i++)
                     floats[i] = BitConverter.ToSingle(vertex, positionEntry.Offset + (i * 4));
 
-                objectStreamWriter.WriteLine($"v  {string.Join(' ', floats)}");
+                objectStreamWriter.WriteLine($"v  {string.Join(' ', floats.Select(x => x.ToString(CultureInfo.InvariantCulture)))}");
             }
             else
                 throw new NotImplementedException();
@@ -242,7 +243,7 @@ public partial class Actor : UserControl
                 for (var i = 0; i < texCoordEntry.Dimension; i++)
                     floats[i] = (float)BitConverter.ToHalf(vertex, texCoordEntry.Offset + (i * 2));
 
-                objectStreamWriter.WriteLine($"vt  {string.Join(' ', floats)}");
+                objectStreamWriter.WriteLine($"vt  {string.Join(' ', floats.Select(x => x.ToString(CultureInfo.InvariantCulture)))}");
             }
             else if (texCoordEntry.Type == VertexFormat.Type.Float)
             {
@@ -251,7 +252,7 @@ public partial class Actor : UserControl
                 for (var i = 0; i < texCoordEntry.Dimension; i++)
                     floats[i] = BitConverter.ToSingle(vertex, texCoordEntry.Offset + (i * 4));
 
-                objectStreamWriter.WriteLine($"vt  {string.Join(' ', floats)}");
+                objectStreamWriter.WriteLine($"vt  {string.Join(' ', floats.Select(x => x.ToString(CultureInfo.InvariantCulture)))}");
             }
             else
                 throw new NotImplementedException();
@@ -271,7 +272,7 @@ public partial class Actor : UserControl
                     for (var i = 0; i < normalEntry.Dimension; i++)
                         floats[i] = (float)BitConverter.ToHalf(vertex, normalEntry.Offset + (i * 2));
 
-                    objectStreamWriter.WriteLine($"vn  {string.Join(' ', floats)}");
+                    objectStreamWriter.WriteLine($"vn  {string.Join(' ', floats.Select(x => x.ToString(CultureInfo.InvariantCulture)))}");
                 }
                 else if (normalEntry.Type == VertexFormat.Type.Float)
                 {
@@ -280,7 +281,7 @@ public partial class Actor : UserControl
                     for (var i = 0; i < normalEntry.Dimension; i++)
                         floats[i] = BitConverter.ToSingle(vertex, normalEntry.Offset + (i * 4));
 
-                    objectStreamWriter.WriteLine($"vn  {string.Join(' ', floats)}");
+                    objectStreamWriter.WriteLine($"vn  {string.Join(' ', floats.Select(x => x.ToString(CultureInfo.InvariantCulture)))}");
                 }
                 else
                     throw new NotImplementedException();
