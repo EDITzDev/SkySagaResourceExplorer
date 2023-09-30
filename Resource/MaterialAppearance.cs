@@ -7,7 +7,7 @@ namespace ResourceExplorer;
 
 public partial class MaterialAppearance : UserControl
 {
-    // Extracted from pixel shaders. (Version 20015)
+    // Extracted from pixel shaders.
     public enum Type : uint
     {
         PatternMap = 67115434u,
@@ -17,9 +17,11 @@ public partial class MaterialAppearance : UserControl
         SpecularMap = 590123184u,
         OverlayTex = 742161934u,
         EdgeMapTex = 1092829288u,
+        DistanceMap = 1526201522u,
         EyeEnvTexture = 1777162241u,
         DiffuseTexture = 2110104344u,
         ColourGradient = 2253552177u,
+        GlowLUT = 2273823985u,
         ColorLUTSampler = 2281016862u,
         TeleportMask = 2427858469u,
         NormalMap = 2681500227u,
@@ -31,7 +33,8 @@ public partial class MaterialAppearance : UserControl
         ShapeMaskTexture = 3288604865u,
         ParticleLUT = 3595746625u,
         MaterialMaskSampler = 4085146453u,
-        StarTexture = 4145218147u
+        StarTexture = 4145218147u,
+        RGBPatternMap = 4179060177u
     }
 
     public class Texture
@@ -73,7 +76,12 @@ public partial class MaterialAppearance : UserControl
         var texturesOffset = br.ReadInt32(); br.BaseStream.Position += 4;
         _ = br.ReadInt32(); br.BaseStream.Position += 4;
 
-        br.BaseStream.Position += file.Pack.Version == 6 ? 36 : 32;
+        if (file.Pack.Version == 170)
+            br.BaseStream.Position += 22;
+        else if(file.Pack.Version == 6)
+            br.BaseStream.Position += 36;
+        else
+            br.BaseStream.Position += 32;
 
         var textureSetCount = br.ReadInt16();
 
