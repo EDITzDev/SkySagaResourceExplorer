@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Version>1.0.2</Version>
     <Nullable>enable</Nullable>
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
     <TargetFramework>net7.0-windows</TargetFramework>
   </PropertyGroup>
 
