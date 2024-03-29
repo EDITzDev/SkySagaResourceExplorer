@@ -33,6 +33,9 @@ public partial class Main : Form
 
         var dataNode = mainTreeView.Nodes["Data"];
 
+        if (dataNode is null)
+            return;
+
         foreach (ResourcePack pack in dataNode.Nodes)
             pack.Nodes.Clear();
 
@@ -200,6 +203,9 @@ public partial class Main : Form
             return;
 
         var dataNode = mainTreeView.Nodes["Data"];
+
+        if (dataNode is null)
+            return;
 
         Parallel.ForEach(dataNode.Nodes.OfType<ResourcePack>(), _parallelOptions, pack =>
         {
@@ -396,7 +402,7 @@ public partial class Main : Form
 
         var closeRect = new Rectangle(tabRect.Right - 14, tabRect.Top + (tabRect.Height - 14) / 2, 14, 14);
 
-        if (closeRect.Contains(e.Location))
+        if (mainTabControl.SelectedTab is not null && closeRect.Contains(e.Location))
             mainTabControl.TabPages.Remove(mainTabControl.SelectedTab);
     }
 
