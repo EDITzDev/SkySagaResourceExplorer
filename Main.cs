@@ -5,12 +5,17 @@ using System.Media;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ResourceExplorer;
 
 public partial class Main : Form
 {
     private readonly ParallelOptions _parallelOptions = new();
+
+    private int _lastSearchIndex;
+    private string _lastSearchText = string.Empty;
+    private List<TreeNode> _lastSearchResults = new List<TreeNode>();
 
     public Main()
     {
@@ -63,6 +68,8 @@ public partial class Main : Form
             mainTreeView.Sort();
 
         mainTreeView.EndUpdate();
+
+        clearSearchResults();
 
         var packCount = dataNode.GetNodeCount(false);
         var fileCount = dataNode.GetNodeCount(true) - packCount;
@@ -234,27 +241,85 @@ public partial class Main : Form
     }
 
     // UI - Search
+    private void searchTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode != Keys.Enter)
+            return;
+
+        e.Handled = true;
+        e.SuppressKeyPress = true;
+
+        searchTreeView();
+    }
+
     private void searchButton_Click(object sender, EventArgs e)
+    {
+        searchTreeView();
+    }
+
+    private void searchTreeView()
     {
         if (string.IsNullOrEmpty(searchTextBox.Text))
             return;
 
-        var isHash = ulong.TryParse(searchTextBox.Text, out var hash);
-
         var dataNode = mainTreeView.Nodes["Data"];
 
-        foreach (ResourcePack packNode in dataNode.Nodes)
-        {
-            foreach (ResourceFile fileNode in packNode.Nodes)
-            {
-                if (fileNode.Text.Contains(searchTextBox.Text) || (isHash && fileNode.Hash == hash))
-                {
-                    mainTreeView.Focus();
-                    mainTreeView.SelectedNode = fileNode;
+        if (dataNode is null)
+            return;
 
-                    break;
-                }
+        var searchText = searchTextBox.Text;
+
+        var isHash = ulong.TryParse(searchText, out var searchHash);
+
+        if (searchText != _lastSearchText)
+        {
+            clearSearchResults();
+
+            _lastSearchText = searchText;
+
+            recursivelySearchTreeView(dataNode, searchText, isHash ? searchHash : null);
+        }
+
+        if (_lastSearchResults.Count == 0)
+        {
+            _lastSearchIndex = 0;
+
+            SystemSounds.Exclamation.Play();
+
+            return;
+        }
+
+        if (_lastSearchIndex == _lastSearchResults.Count)
+            _lastSearchIndex = 0;
+
+        var selectedNode = _lastSearchResults[_lastSearchIndex++];
+
+        mainTreeView.SelectedNode = selectedNode;
+        mainTreeView.SelectedNode.Expand();
+        mainTreeView.Focus();
+    }
+
+    private void clearSearchResults()
+    {
+        _lastSearchIndex = 0;
+        _lastSearchResults.Clear();
+        _lastSearchText = string.Empty;
+    }
+
+    private void recursivelySearchTreeView(TreeNode? startNode, string searchText, ulong? searchHash)
+    {
+        while (startNode is not null)
+        {
+            if (startNode.Text.Contains(searchText, StringComparison.CurrentCultureIgnoreCase)
+                || startNode is ResourceFile resourceFile && resourceFile.Hash == searchHash)
+            {
+                _lastSearchResults.Add(startNode);
             }
+
+            if (startNode.Nodes.Count > 0)
+                recursivelySearchTreeView(startNode.Nodes[0], searchText, searchHash);
+
+            startNode = startNode.NextNode;
         }
     }
 

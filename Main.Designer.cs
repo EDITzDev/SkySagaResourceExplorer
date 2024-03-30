@@ -348,6 +348,7 @@ partial class Main
         searchTextBox.Name = "searchTextBox";
         searchTextBox.Size = new System.Drawing.Size(244, 23);
         searchTextBox.TabIndex = 7;
+        searchTextBox.KeyDown += searchTextBox_KeyDown;
         // 
         // mainSplitContainer
         // 
