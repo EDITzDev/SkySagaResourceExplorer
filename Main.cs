@@ -141,7 +141,27 @@ public partial class Main : Form
     }
 
     // Export - Actors
-    private void actorsToolStripMenuItem_Click(object sender, EventArgs e)
+    private void firstLodAndMaterialToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        exportActors();
+    }
+
+    private void includeAllLodsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        exportActors(allLods: true);
+    }
+
+    private void includeAllMaterialsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        exportActors(allMaterials: true);
+    }
+
+    private void includeAllLodsAndMaterialsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        exportActors(allLods: true, allMaterials: true);
+    }
+
+    private void exportActors(bool allLods = false, bool allMaterials = false)
     {
         using var folderBrowserDialog = new FolderBrowserDialog();
 
@@ -155,14 +175,13 @@ public partial class Main : Form
             Parallel.ForEach(pack.Files, file =>
             {
                 if (file.Type == ResourceType.Actor)
-                    Actor.Export(saveDirectory, file);
+                    Actor.Export(saveDirectory, file, allLods, allMaterials);
             });
         });
-
     }
 
     // Export - Textures
-    private void texturesToolStripMenuItem_Click(object sender, EventArgs e)
+    private void allTexturesToolStripMenuItem_Click(object sender, EventArgs e)
     {
         using var folderBrowserDialog = new FolderBrowserDialog();
 
@@ -182,7 +201,7 @@ public partial class Main : Form
     }
 
     // Export - String Tables
-    private void stringTablesToolStripMenuItem_Click(object sender, EventArgs e)
+    private void allStringTablesToolStripMenuItem_Click(object sender, EventArgs e)
     {
         using var folderBrowserDialog = new FolderBrowserDialog();
 
@@ -202,7 +221,7 @@ public partial class Main : Form
     }
 
     // Export - Raw Files (Visible)
-    private void rawFilesToolStripMenuItem_Click(object sender, EventArgs e)
+    private void allRawFilesToolStripMenuItem_Click(object sender, EventArgs e)
     {
         using var folderBrowserDialog = new FolderBrowserDialog();
 
@@ -359,7 +378,7 @@ public partial class Main : Form
                 break;
 
             case ResourceType.Actor:
-                control = Actor.Create(file);
+                control = Actor.Create(file, mainTabControl);
                 break;
 
             case ResourceType.Stringtable:
@@ -379,7 +398,7 @@ public partial class Main : Form
                 break;
 
             case ResourceType.MaterialAppearance:
-                control = MaterialAppearance.Create(file);
+                control = MaterialAppearance.Create(file, mainTabControl);
                 break;
         }
 

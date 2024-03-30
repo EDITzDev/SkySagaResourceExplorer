@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -7,6 +8,9 @@ namespace ResourceExplorer;
 
 public partial class MaterialAppearance : UserControl
 {
+    private readonly ResourcePack _pack;
+    private readonly TabControl _tabControl;
+
     // Extracted from pixel shaders.
     public enum Type : uint
     {
@@ -37,34 +41,84 @@ public partial class MaterialAppearance : UserControl
         RGBPatternMap = 4179060177u
     }
 
-    public class Texture
+    public class TextureSet
     {
         public ulong Hash { get; set; }
         public Type Type { get; set; }
     }
 
-    public MaterialAppearance()
+    public MaterialAppearance(ResourcePack pack, TabControl tabControl)
     {
+        _pack = pack;
+        _tabControl = tabControl;
+
         InitializeComponent();
 
         Dock = DockStyle.Fill;
     }
 
-    public static MaterialAppearance? Create(ResourceFile file)
+    private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
     {
-        var textures = LoadFile(file);
+        if (e.ColumnIndex != 0)
+            return;
 
-        if(!textures.Any())
+        var textureCell = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+        if (textureCell is null || textureCell.Value is not ulong textureHash)
+        {
+            SystemSounds.Exclamation.Play();
+            return;
+        }
+
+        var textureFile = Util.FindFile(_pack, textureHash) ?? Util.FindFile(textureHash);
+
+        if (textureFile is null)
+        {
+            SystemSounds.Exclamation.Play();
+            return;
+        }
+
+        var texture = Texture.Create(textureFile);
+
+        if (texture is null)
+        {
+            SystemSounds.Exclamation.Play();
+            return;
+        }
+
+        var tabPage = new TabPage
+        {
+            Text = $"{textureFile.Text}    "
+        };
+
+        tabPage.Controls.Add(texture);
+
+        _tabControl.TabPages.Add(tabPage);
+
+        _tabControl.SelectedTab = tabPage;
+        _tabControl.SelectedTab.Focus();
+    }
+
+    public static MaterialAppearance? Create(ResourceFile file, TabControl mainTabControl)
+    {
+        var textureSets = LoadFile(file, out var materialHash);
+
+        if (!textureSets.Any())
             return null;
 
-        var materialAppearance = new MaterialAppearance();
+        var materialAppearance = new MaterialAppearance(file.Pack, mainTabControl);
 
-        materialAppearance.dataGridView.DataSource = textures;
+        materialAppearance.dataGridView.DataSource = textureSets;
+
+        var materialFile = Util.FindFile(file.Pack, materialHash) ?? Util.FindFile(materialHash);
+
+        if (materialFile is not null)
+            materialAppearance.materialLabel.Text = $"Material: {materialFile.Text}";
 
         return materialAppearance;
     }
 
-    public static IEnumerable<Texture> LoadFile(ResourceFile file)
+    public static IEnumerable<TextureSet> LoadFile(ResourceFile file, out ulong materialHash)
     {
         using var data = file.GetData();
 
@@ -77,21 +131,37 @@ public partial class MaterialAppearance : UserControl
         _ = br.ReadInt32(); br.BaseStream.Position += 4;
 
         if (file.Pack.Version == 170)
-            br.BaseStream.Position += 22;
-        else if(file.Pack.Version == 6)
-            br.BaseStream.Position += 36;
+        {
+            materialHash = br.ReadUInt32();
+
+            br.BaseStream.Position += 16;
+        }
+        else if (file.Pack.Version == 6)
+        {
+            br.BaseStream.Position += 24;
+
+            materialHash = br.ReadUInt64();
+
+            br.BaseStream.Position += 4;
+        }
         else
-            br.BaseStream.Position += 32;
+        {
+            br.BaseStream.Position += 24;
+
+            materialHash = br.ReadUInt32();
+
+            br.BaseStream.Position += 4;
+        }
 
         var textureSetCount = br.ReadInt16();
 
         br.BaseStream.Position = texturesOffset;
 
-        var textures = new List<Texture>();
+        var textureSets = new List<TextureSet>();
 
         for (var i = 0; i < textureSetCount; i++)
         {
-            textures.Add(new Texture
+            textureSets.Add(new TextureSet
             {
                 Hash = file.Pack.Version == 6 ? br.ReadUInt64() : br.ReadUInt32(),
                 Type = (Type)br.ReadUInt32()
@@ -100,6 +170,6 @@ public partial class MaterialAppearance : UserControl
             br.BaseStream.Position += file.Pack.Version == 6 ? 28 : 24;
         }
 
-        return textures;
+        return textureSets;
     }
 }

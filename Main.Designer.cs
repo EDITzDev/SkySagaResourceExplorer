@@ -47,10 +47,13 @@ partial class Main
         sortFilesSlowToolStripMenuItem = new ToolStripMenuItem();
         hideEmptyPacksToolStripMenuItem = new ToolStripMenuItem();
         exportToolStripMenuItem = new ToolStripMenuItem();
-        actorsToolStripMenuItem = new ToolStripMenuItem();
-        texturesToolStripMenuItem = new ToolStripMenuItem();
-        stringTablesToolStripMenuItem = new ToolStripMenuItem();
-        rawFilesToolStripMenuItem = new ToolStripMenuItem();
+        allActorsToolStripMenuItem = new ToolStripMenuItem();
+        includeAllLodsToolStripMenuItem = new ToolStripMenuItem();
+        includeAllMaterialsToolStripMenuItem = new ToolStripMenuItem();
+        includeAllLodsAndMaterialsToolStripMenuItem = new ToolStripMenuItem();
+        allTexturesToolStripMenuItem = new ToolStripMenuItem();
+        allStringTablesToolStripMenuItem = new ToolStripMenuItem();
+        allRawFilesToolStripMenuItem = new ToolStripMenuItem();
         BottomToolStripPanel = new ToolStripPanel();
         TopToolStripPanel = new ToolStripPanel();
         RightToolStripPanel = new ToolStripPanel();
@@ -67,7 +70,8 @@ partial class Main
         searchTextBox = new TextBox();
         mainSplitContainer = new SplitContainer();
         searchButton = new Button();
-        colorDialog1 = new ColorDialog();
+        firstLodAndMaterialToolStripMenuItem = new ToolStripMenuItem();
+        toolStripSeparator1 = new ToolStripSeparator();
         mainStatusStrip.SuspendLayout();
         mainMenuStrip.SuspendLayout();
         fileContextMenuStrip.SuspendLayout();
@@ -157,7 +161,7 @@ partial class Main
         // consoleLogToolStripMenuItem
         // 
         consoleLogToolStripMenuItem.Name = "consoleLogToolStripMenuItem";
-        consoleLogToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+        consoleLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         consoleLogToolStripMenuItem.Text = "Console Log";
         consoleLogToolStripMenuItem.Click += consoleLogToolStripMenuItem_Click;
         // 
@@ -165,7 +169,7 @@ partial class Main
         // 
         closeAllTabsToolStripMenuItem.Name = "closeAllTabsToolStripMenuItem";
         closeAllTabsToolStripMenuItem.ShortcutKeyDisplayString = "";
-        closeAllTabsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+        closeAllTabsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         closeAllTabsToolStripMenuItem.Text = "Close All Tabs";
         closeAllTabsToolStripMenuItem.Click += closeAllTabsToolStripMenuItem_Click;
         // 
@@ -173,7 +177,7 @@ partial class Main
         // 
         sortFilesSlowToolStripMenuItem.CheckOnClick = true;
         sortFilesSlowToolStripMenuItem.Name = "sortFilesSlowToolStripMenuItem";
-        sortFilesSlowToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+        sortFilesSlowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         sortFilesSlowToolStripMenuItem.Text = "Sort Files (Slow)";
         sortFilesSlowToolStripMenuItem.CheckedChanged += sortFilesSlowToolStripMenuItem_CheckedChanged;
         // 
@@ -183,44 +187,65 @@ partial class Main
         hideEmptyPacksToolStripMenuItem.CheckOnClick = true;
         hideEmptyPacksToolStripMenuItem.CheckState = CheckState.Checked;
         hideEmptyPacksToolStripMenuItem.Name = "hideEmptyPacksToolStripMenuItem";
-        hideEmptyPacksToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+        hideEmptyPacksToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         hideEmptyPacksToolStripMenuItem.Text = "Hide Empty Packs";
         hideEmptyPacksToolStripMenuItem.CheckedChanged += hideEmptyPacksToolStripMenuItem_CheckedChanged;
         // 
         // exportToolStripMenuItem
         // 
-        exportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { actorsToolStripMenuItem, texturesToolStripMenuItem, stringTablesToolStripMenuItem, rawFilesToolStripMenuItem });
+        exportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { allActorsToolStripMenuItem, allTexturesToolStripMenuItem, allStringTablesToolStripMenuItem, allRawFilesToolStripMenuItem });
         exportToolStripMenuItem.Name = "exportToolStripMenuItem";
         exportToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
         exportToolStripMenuItem.Text = "Export";
         // 
-        // actorsToolStripMenuItem
+        // allActorsToolStripMenuItem
         // 
-        actorsToolStripMenuItem.Name = "actorsToolStripMenuItem";
-        actorsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-        actorsToolStripMenuItem.Text = "Actors";
-        actorsToolStripMenuItem.Click += actorsToolStripMenuItem_Click;
+        allActorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { firstLodAndMaterialToolStripMenuItem, toolStripSeparator1, includeAllLodsToolStripMenuItem, includeAllMaterialsToolStripMenuItem, includeAllLodsAndMaterialsToolStripMenuItem });
+        allActorsToolStripMenuItem.Name = "allActorsToolStripMenuItem";
+        allActorsToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+        allActorsToolStripMenuItem.Text = "All Actors";
         // 
-        // texturesToolStripMenuItem
+        // includeAllLodsToolStripMenuItem
         // 
-        texturesToolStripMenuItem.Name = "texturesToolStripMenuItem";
-        texturesToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-        texturesToolStripMenuItem.Text = "Textures";
-        texturesToolStripMenuItem.Click += texturesToolStripMenuItem_Click;
+        includeAllLodsToolStripMenuItem.Name = "includeAllLodsToolStripMenuItem";
+        includeAllLodsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+        includeAllLodsToolStripMenuItem.Text = "Include All Lods";
+        includeAllLodsToolStripMenuItem.Click += includeAllLodsToolStripMenuItem_Click;
         // 
-        // stringTablesToolStripMenuItem
+        // includeAllMaterialsToolStripMenuItem
         // 
-        stringTablesToolStripMenuItem.Name = "stringTablesToolStripMenuItem";
-        stringTablesToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-        stringTablesToolStripMenuItem.Text = "String Tables";
-        stringTablesToolStripMenuItem.Click += stringTablesToolStripMenuItem_Click;
+        includeAllMaterialsToolStripMenuItem.Name = "includeAllMaterialsToolStripMenuItem";
+        includeAllMaterialsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+        includeAllMaterialsToolStripMenuItem.Text = "Include All Materials";
+        includeAllMaterialsToolStripMenuItem.Click += includeAllMaterialsToolStripMenuItem_Click;
         // 
-        // rawFilesToolStripMenuItem
+        // includeAllLodsAndMaterialsToolStripMenuItem
         // 
-        rawFilesToolStripMenuItem.Name = "rawFilesToolStripMenuItem";
-        rawFilesToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-        rawFilesToolStripMenuItem.Text = "Raw Files (Visible Only)";
-        rawFilesToolStripMenuItem.Click += rawFilesToolStripMenuItem_Click;
+        includeAllLodsAndMaterialsToolStripMenuItem.Name = "includeAllLodsAndMaterialsToolStripMenuItem";
+        includeAllLodsAndMaterialsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+        includeAllLodsAndMaterialsToolStripMenuItem.Text = "Include All Lods && Materials";
+        includeAllLodsAndMaterialsToolStripMenuItem.Click += includeAllLodsAndMaterialsToolStripMenuItem_Click;
+        // 
+        // allTexturesToolStripMenuItem
+        // 
+        allTexturesToolStripMenuItem.Name = "allTexturesToolStripMenuItem";
+        allTexturesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+        allTexturesToolStripMenuItem.Text = "All Textures";
+        allTexturesToolStripMenuItem.Click += allTexturesToolStripMenuItem_Click;
+        // 
+        // allStringTablesToolStripMenuItem
+        // 
+        allStringTablesToolStripMenuItem.Name = "allStringTablesToolStripMenuItem";
+        allStringTablesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+        allStringTablesToolStripMenuItem.Text = "All String Tables";
+        allStringTablesToolStripMenuItem.Click += allStringTablesToolStripMenuItem_Click;
+        // 
+        // allRawFilesToolStripMenuItem
+        // 
+        allRawFilesToolStripMenuItem.Name = "allRawFilesToolStripMenuItem";
+        allRawFilesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+        allRawFilesToolStripMenuItem.Text = "All Raw Files (Visible Only)";
+        allRawFilesToolStripMenuItem.Click += allRawFilesToolStripMenuItem_Click;
         // 
         // BottomToolStripPanel
         // 
@@ -385,6 +410,18 @@ partial class Main
         searchButton.UseVisualStyleBackColor = true;
         searchButton.Click += searchButton_Click;
         // 
+        // firstLodAndMaterialToolStripMenuItem
+        // 
+        firstLodAndMaterialToolStripMenuItem.Name = "firstLodAndMaterialToolStripMenuItem";
+        firstLodAndMaterialToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+        firstLodAndMaterialToolStripMenuItem.Text = "First Lod && Material";
+        firstLodAndMaterialToolStripMenuItem.Click += firstLodAndMaterialToolStripMenuItem_Click;
+        // 
+        // toolStripSeparator1
+        // 
+        toolStripSeparator1.Name = "toolStripSeparator1";
+        toolStripSeparator1.Size = new System.Drawing.Size(219, 6);
+        // 
         // Main
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -419,8 +456,8 @@ partial class Main
     private ToolStripMenuItem openToolStripMenuItem;
     private ImageList iconImageList;
     private ToolStripMenuItem exportToolStripMenuItem;
-    private ToolStripMenuItem texturesToolStripMenuItem;
-    private ToolStripMenuItem actorsToolStripMenuItem;
+    private ToolStripMenuItem allTexturesToolStripMenuItem;
+    private ToolStripMenuItem allActorsToolStripMenuItem;
     private ToolStripPanel BottomToolStripPanel;
     private ToolStripPanel TopToolStripPanel;
     private ToolStripPanel RightToolStripPanel;
@@ -439,13 +476,17 @@ partial class Main
     private ToolStripMenuItem viewToolStripMenuItem;
     private ToolStripMenuItem closeAllTabsToolStripMenuItem;
     private ToolStripMenuItem hideEmptyPacksToolStripMenuItem;
-    private ToolStripMenuItem stringTablesToolStripMenuItem;
+    private ToolStripMenuItem allStringTablesToolStripMenuItem;
     private ToolStripMenuItem consoleLogToolStripMenuItem;
     private ToolStripStatusLabel nameListCountToolStripStatusLabel;
     private ToolStripMenuItem sortFilesSlowToolStripMenuItem;
-    private ToolStripMenuItem rawFilesToolStripMenuItem;
+    private ToolStripMenuItem allRawFilesToolStripMenuItem;
     private ContextMenuStrip fileContextMenuStrip;
     private ToolStripMenuItem exportFileToolStripMenuItem;
     private ToolStripMenuItem saveRawToolStripMenuItem;
-    private ColorDialog colorDialog1;
+    private ToolStripMenuItem includeAllLodsToolStripMenuItem;
+    private ToolStripMenuItem includeAllMaterialsToolStripMenuItem;
+    private ToolStripMenuItem includeAllLodsAndMaterialsToolStripMenuItem;
+    private ToolStripMenuItem firstLodAndMaterialToolStripMenuItem;
+    private ToolStripSeparator toolStripSeparator1;
 }

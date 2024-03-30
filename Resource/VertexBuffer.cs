@@ -148,7 +148,7 @@ public partial class VertexBuffer : UserControl
 
         // Load format
 
-        var format = Util.FindFile(formatHash);
+        var format = Util.FindFile(file.Pack, formatHash) ?? Util.FindFile(formatHash);
 
         if (format is null)
         {

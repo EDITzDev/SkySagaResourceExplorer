@@ -28,79 +28,77 @@
         /// </summary>
         private void InitializeComponent()
         {
-            indexBufferLabel = new System.Windows.Forms.Label();
-            lodLabel = new System.Windows.Forms.Label();
-            qualityLabel = new System.Windows.Forms.Label();
-            vertexBufferLabel = new System.Windows.Forms.Label();
-            materialAppearanceLabel = new System.Windows.Forms.Label();
+            dataGridView = new System.Windows.Forms.DataGridView();
+            meshesLabel = new System.Windows.Forms.Label();
+            splitContainer = new System.Windows.Forms.SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
+            splitContainer.Panel1.SuspendLayout();
+            splitContainer.Panel2.SuspendLayout();
+            splitContainer.SuspendLayout();
             SuspendLayout();
             // 
-            // indexBufferLabel
+            // dataGridView
             // 
-            indexBufferLabel.AutoSize = true;
-            indexBufferLabel.Location = new System.Drawing.Point(28, 52);
-            indexBufferLabel.Name = "indexBufferLabel";
-            indexBufferLabel.Size = new System.Drawing.Size(80, 15);
-            indexBufferLabel.TabIndex = 0;
-            indexBufferLabel.Text = "IndexBuffer: 0";
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToDeleteRows = false;
+            dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            dataGridView.Location = new System.Drawing.Point(0, 0);
+            dataGridView.Name = "dataGridView";
+            dataGridView.ReadOnly = true;
+            dataGridView.RowHeadersVisible = false;
+            dataGridView.RowTemplate.Height = 25;
+            dataGridView.Size = new System.Drawing.Size(1227, 812);
+            dataGridView.TabIndex = 4;
+            dataGridView.CellMouseDoubleClick += dataGridView_CellMouseDoubleClick;
             // 
-            // lodLabel
+            // meshesLabel
             // 
-            lodLabel.AutoSize = true;
-            lodLabel.Location = new System.Drawing.Point(28, 22);
-            lodLabel.Name = "lodLabel";
-            lodLabel.Size = new System.Drawing.Size(39, 15);
-            lodLabel.TabIndex = 1;
-            lodLabel.Text = "Lod: 0";
+            meshesLabel.AutoSize = true;
+            meshesLabel.Location = new System.Drawing.Point(10, 10);
+            meshesLabel.Name = "meshesLabel";
+            meshesLabel.Size = new System.Drawing.Size(59, 15);
+            meshesLabel.TabIndex = 5;
+            meshesLabel.Text = "Meshes: 0";
             // 
-            // qualityLabel
+            // splitContainer
             // 
-            qualityLabel.AutoSize = true;
-            qualityLabel.Location = new System.Drawing.Point(28, 37);
-            qualityLabel.Name = "qualityLabel";
-            qualityLabel.Size = new System.Drawing.Size(57, 15);
-            qualityLabel.TabIndex = 2;
-            qualityLabel.Text = "Quality: 0";
+            splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            splitContainer.Location = new System.Drawing.Point(0, 0);
+            splitContainer.Name = "splitContainer";
+            splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // vertexBufferLabel
+            // splitContainer.Panel1
             // 
-            vertexBufferLabel.AutoSize = true;
-            vertexBufferLabel.Location = new System.Drawing.Point(28, 67);
-            vertexBufferLabel.Name = "vertexBufferLabel";
-            vertexBufferLabel.Size = new System.Drawing.Size(83, 15);
-            vertexBufferLabel.TabIndex = 3;
-            vertexBufferLabel.Text = "VertexBuffer: 0";
+            splitContainer.Panel1.Controls.Add(meshesLabel);
             // 
-            // materialAppearanceLabel
+            // splitContainer.Panel2
             // 
-            materialAppearanceLabel.AutoSize = true;
-            materialAppearanceLabel.Location = new System.Drawing.Point(28, 82);
-            materialAppearanceLabel.Name = "materialAppearanceLabel";
-            materialAppearanceLabel.Size = new System.Drawing.Size(125, 15);
-            materialAppearanceLabel.TabIndex = 3;
-            materialAppearanceLabel.Text = "MaterialAppearance: 0";
+            splitContainer.Panel2.Controls.Add(dataGridView);
+            splitContainer.Size = new System.Drawing.Size(1227, 850);
+            splitContainer.SplitterDistance = 34;
+            splitContainer.TabIndex = 6;
             // 
             // Actor
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            Controls.Add(materialAppearanceLabel);
-            Controls.Add(vertexBufferLabel);
-            Controls.Add(qualityLabel);
-            Controls.Add(lodLabel);
-            Controls.Add(indexBufferLabel);
+            Controls.Add(splitContainer);
             Name = "Actor";
             Size = new System.Drawing.Size(1227, 850);
+            ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
+            splitContainer.Panel1.ResumeLayout(false);
+            splitContainer.Panel1.PerformLayout();
+            splitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
+            splitContainer.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private System.Windows.Forms.Label indexBufferLabel;
-        private System.Windows.Forms.Label lodLabel;
-        private System.Windows.Forms.Label qualityLabel;
-        private System.Windows.Forms.Label vertexBufferLabel;
-        private System.Windows.Forms.Label materialAppearanceLabel;
+        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.Label meshesLabel;
+        private System.Windows.Forms.SplitContainer splitContainer;
     }
 }

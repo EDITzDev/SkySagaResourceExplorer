@@ -122,7 +122,7 @@ internal static class Util
 
     internal static ResourceFile? FindFile(ulong hash)
     {
-        return Program.Packs.SelectMany(x => x.Files).SingleOrDefault(f => f.Hash == hash);
+        return Program.Packs.SelectMany(x => x.Files).FirstOrDefault(f => f.Hash == hash);
     }
 
     internal static ResourceFile? FindFile(ResourcePack pack, ulong hash)
