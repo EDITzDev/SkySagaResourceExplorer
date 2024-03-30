@@ -154,7 +154,7 @@ public class ResourcePack : TreeNode, IDisposable
 
         Version = br.ReadInt16();
 
-        if (Version is not 2 and not 5 and not 6)
+        if (Version is not 2 and not 4 and not 5 and not 6)
         {
             Console.WriteLine($"Unknown pack version. {Version}");
             return false;
@@ -205,7 +205,7 @@ public class ResourcePack : TreeNode, IDisposable
 
             var fileFlags = br.ReadInt32();
 
-            if (Version == 2)
+            if (Version is 2 or 4)
                 br.BaseStream.Position += 4;
             else if (Version == 5)
                 br.BaseStream.Position += 12;
