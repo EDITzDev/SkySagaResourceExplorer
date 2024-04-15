@@ -13,6 +13,8 @@ public partial class Main : Form
 {
     private readonly ParallelOptions _parallelOptions = new();
 
+    private readonly HashSet<ResourceType> _loadedTypes = new();
+
     private int _lastSearchIndex;
     private string _lastSearchText = string.Empty;
     private List<TreeNode> _lastSearchResults = new List<TreeNode>();
@@ -21,7 +23,7 @@ public partial class Main : Form
     {
         InitializeComponent();
 
-        filterComboBox.SelectedIndex = (int)ResourceType.All;
+        filterComboBox.Items.Clear();
 
         nameListCountToolStripStatusLabel.Text = $"Names: {Program.Names.Count}";
 
@@ -32,7 +34,8 @@ public partial class Main : Form
 
     private void PopulateTreeNode()
     {
-        var resourceType = (ResourceType)filterComboBox.SelectedIndex;
+        if (filterComboBox.SelectedItem is not ResourceType resourceType)
+            return;
 
         mainTreeView.BeginUpdate();
 
@@ -93,6 +96,9 @@ public partial class Main : Form
 
         mainTabControl.TabPages.Clear();
 
+        _loadedTypes.Clear();
+        filterComboBox.Items.Clear();
+
         Program.Packs.Clear();
 
         Parallel.ForEach(Directory.EnumerateFiles(folderBrowserDialog.SelectedPath, "*.pc"), _parallelOptions, pcFile =>
@@ -121,7 +127,26 @@ public partial class Main : Form
             Program.Packs.Add(resourcePack);
         });
 
-        PopulateTreeNode();
+        foreach (var pack in Program.Packs)
+        {
+            foreach (var file in pack.Files)
+            {
+                if (file.Type >= ResourceType.All)
+                    continue;
+
+                if (!_loadedTypes.Contains(file.Type))
+                    _loadedTypes.Add(file.Type);
+            }
+        }
+
+        if (_loadedTypes.Count > 0)
+        {
+            foreach (var loadedType in _loadedTypes)
+                filterComboBox.Items.Add(loadedType);
+
+            filterComboBox.Items.Add(ResourceType.All);
+            filterComboBox.SelectedItem = ResourceType.All;
+        }
     }
 
     // View
@@ -254,7 +279,7 @@ public partial class Main : Form
     }
 
     // UI - Filter
-    private void resourceTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+    private void filterComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
         PopulateTreeNode();
     }

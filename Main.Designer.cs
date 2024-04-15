@@ -347,7 +347,7 @@ partial class Main
         filterComboBox.Name = "filterComboBox";
         filterComboBox.Size = new System.Drawing.Size(273, 23);
         filterComboBox.TabIndex = 4;
-        filterComboBox.SelectedIndexChanged += resourceTypeComboBox_SelectedIndexChanged;
+        filterComboBox.SelectedIndexChanged += filterComboBox_SelectedIndexChanged;
         // 
         // filterLabel
         // 
